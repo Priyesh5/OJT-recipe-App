@@ -16,6 +16,7 @@ function RecipeAppComponent() {
     } 
   });
 
+  // A function to fetch all the categories data
   async function fetchData(){
     const result = await axios(
         'https://www.themealdb.com/api/json/v1/1/list.php?c=list',
@@ -28,13 +29,14 @@ function RecipeAppComponent() {
         setData(categoryArray);
       }
       
+  // A function to fetch the Recipe List by Category
       async function fetchRecipesByCategory(categoryname){
         const result = await axios(
           `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryname}`,
           );
           await setRecipeList(result);
       }
-
+  // A function to fetch the Recipe List by the Search
       async function fetchRecipesBySearch(searchVal){
         console.log(searchVal);
         const result = await axios(
@@ -49,7 +51,8 @@ function RecipeAppComponent() {
             await setRecipeList(result);
           }
       }
-
+  
+  // A function to create Recipe List 
       function setRecipeList(result){
         var listOfRecipes = [];
           var temp = result.data.meals;
@@ -60,7 +63,7 @@ function RecipeAppComponent() {
           setrecipesByCategoryArray(listOfRecipes);
           }
       }
-
+  // A function to fetch data of a particular Recipe
       async function fetchRecipeCard(recipeName){
         const result = await axios.get(`https://www.themealdb.com/api/json/v1/1/search.php?s=${recipeName}`);
         var temp = result.data.meals;
@@ -78,16 +81,16 @@ function RecipeAppComponent() {
         setRecipeIngredients(ingredients);
         setRecipeImage(temp[0].strMealThumb);
       }
-
+  // Handle the Select Option Event
     function handleChange(evt){
       var temp = evt.target.value;
       fetchRecipesByCategory(temp);
     }
-
+// Handle the Recipe Selction Event from Recipe List
     function handleClick(d){
       fetchRecipeCard(d);
     }
-    
+ // Handle the Search Button Event
     function handleSearchClick(){
       var temp = document.getElementById('searchText').value;
       fetchRecipesBySearch(temp);
